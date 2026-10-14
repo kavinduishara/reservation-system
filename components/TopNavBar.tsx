@@ -36,7 +36,6 @@ export default function Navbar() {
             className="flex items-center space-x-1.5 rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
           >
             <span>Reservation Requests</span>
-            <span className="rounded-md bg-indigo-50 px-1.5 py-0.5 text-xs font-semibold text-indigo-600">Admin</span>
           </Link>
         </nav>
 
