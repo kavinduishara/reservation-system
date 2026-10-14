@@ -1,13 +1,22 @@
 // components/Navbar.tsx
+'src/components/Navbar.tsx'
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
+  const pathname = usePathname();
+
+  // Helper function to determine if a link is active
+  const isActive = (path: string) => pathname === path;
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         
         {/* Logo & Title */}
-        <Link href="/" className="flex items-center space-x-3 group">
+        <Link href="/" className="group flex items-center space-x-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm transition-transform group-hover:scale-105">
             {/* Calendar / Hub Icon */}
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -21,19 +30,31 @@ export default function Navbar() {
         <nav className="flex items-center space-x-1 sm:space-x-2">
           <Link 
             href="/" 
-            className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              isActive('/') 
+                ? 'bg-zinc-100 text-zinc-900 font-semibold' 
+                : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
+            }`}
           >
             Resources
           </Link>
           <Link 
             href="/my-reservations" 
-            className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              isActive('/my-reservations') 
+                ? 'bg-zinc-100 text-zinc-900 font-semibold' 
+                : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
+            }`}
           >
             My Reservations
           </Link>
           <Link 
             href="/admin/requests" 
-            className="flex items-center space-x-1.5 rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+            className={`flex items-center space-x-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              isActive('/admin/requests') 
+                ? 'bg-zinc-100 text-zinc-900 font-semibold' 
+                : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
+            }`}
           >
             <span>Reservation Requests</span>
           </Link>
