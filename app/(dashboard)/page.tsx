@@ -1,6 +1,8 @@
 "use client"
+
 import PageTitle from '@/components/PageTitle';
 import ResourceCard from '@/components/ResourceCard';
+import { useRouter } from 'next/navigation'; // <-- Correct import for App Router
 
 // 1. Mock Data List
 const MOCK_RESOURCES = [
@@ -61,8 +63,10 @@ const MOCK_RESOURCES = [
 ];
 
 export default function AllReservations() {
-  const handleViewDetails = (title: string) => {
-    console.log(`Navigating to details for: ${title}`);
+  const router = useRouter(); // <-- Initialize the router hook
+
+  const handleViewDetails = (id: string) => {
+    router.push(`/resource/${id}`);
   };
 
   return (
@@ -86,7 +90,7 @@ export default function AllReservations() {
               location={resource.location}
               capacity={resource.capacity}
               features={resource.features}
-              onViewDetails={() => handleViewDetails(resource.title)}
+              onViewDetails={() => handleViewDetails(resource.id)}
             />
           ))}
         </div>
