@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Category {
+  MEETING_ROOM
+  CONFERENCE_ROOM
+  LAB
+  EQUIPMENT
+}
+
+enum ReservationStatus {
+  PENDING
+  BOOKED
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  username     String        @unique
+  passwordHash String
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+
+  reservations Reservation[]
+}
+
+model Reservation {
+  id         Int               @id @default(autoincrement())
+  startTime  DateTime          @db.Timestamptz(3)
+  endTime    DateTime          @db.Timestamptz(3)
+  reservedBy Int
+  resourceId Int
+  note       String?
+  status     ReservationStatus @default(PENDING)
+  createdAt  DateTime          @default(now())
+
+  user       User              @relation(fields: [reservedBy], references: [id])
+  resource   Resource          @relation(fields: [resourceId], references: [id])
+
+  @@index([reservedBy])
+  @@index([resourceId, startTime, endTime])
+}
+
+model Resource {
+  id           Int           @id @default(autoincrement())
+  name         String
+  location     String
+  features     String[]
+  category     Category
+  reservations Reservation[]
+}
